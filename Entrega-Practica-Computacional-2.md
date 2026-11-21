@@ -48,17 +48,21 @@ En cumplimiento con los requerimientos de la **Práctica Computacional 2**, se d
 
 ## 2. Enlaces y Ejecución
 
-- **Aplicación Web Local:** `http://localhost:8081`
-- **Páginas HTML independientes:**
-  - `index.html` (Portal principal)
-  - `raices.html` (Programa 1)
-  - `interpolacion.html` (Programa 2)
-  - `diferenciacion_integracion.html` (Programa 3)
-  - `edo_pvi.html` (Programa 4)
-  - `problema_ingenieria.html` (Programa 5)
-- **Scripts de Python (.py) incluidos:**
-  - `calculadora_1_raices.py`
-  - `calculadora_2_interpolacion.py`
-  - `calculadora_3_dif_int.py`
-  - `calculadora_4_edo.py`
-  - `Armadura Pratt Ejercicio 6.53 Beer.py`
+- **Despliegue en Producción (Vercel):** [https://practica-2-analisis-numerico.vercel.app](https://practica-2-analisis-numerico.vercel.app)
+- **Repositorio en GitHub:** [https://github.com/Kromilla/practica-2-analisis-numerico](https://github.com/Kromilla/practica-2-analisis-numerico)
+- **Servidor Local de Pruebas:** `http://localhost:8081`
+
+### Páginas Web Independientes:
+- `index.html` (Portal Principal con Presentación)
+- `raices.html` (Programa 1: Raíces)
+- `interpolacion.html` (Programa 2: Interpolación Polinomial)
+- `diferenciacion_integracion.html` (Programa 3: Dif. e Integración)
+- `edo_pvi.html` (Programa 4: EDO para PVI)
+- `problema_ingenieria.html` (Programa 5: Armadura Pratt)
+
+### Scripts de Python GUI (.py):
+- `calculadora_1_raices.py`
+- `calculadora_2_interpolacion.py`
+- `calculadora_3_dif_int.py`
+- `calculadora_4_edo.py`
+- `Armadura Pratt Ejercicio 6.53 Beer.py`
