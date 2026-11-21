@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de EDO para PVI · Análisis Numérico</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <!-- BARRA DE NAVEGACIÓN -->
+  <nav class="barra-nav">
+    <div class="contenedor">
+      <a href="index.html" class="logo-uni">
+        🏛️ Unimagdalena · Análisis Numérico
+      </a>
+      <ul class="nav-enlaces">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="raices.html">1. Raíces</a></li>
+        <li><a href="interpolacion.html">2. Interpolación</a></li>
+        <li><a href="diferenciacion_integracion.html">3. Dif. e Integración</a></li>
+        <li><a href="edo_pvi.html" class="activo">4. EDO para PVI</a></li>
+        <li><a href="problema_ingenieria.html">5. Ing. Armadura</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ENCABEZADO -->
+  <header class="cabecera-pagina">
+    <p class="subtitulo-uni">Práctica Computacional 2 · Programa 4 (Unidad 3)</p>
+    <h1>Calculadora de Solución Numérica de EDO para PVI</h1>
+    <p class="profesor">Docente: Marlon Andrés Hurtado Cantillo</p>
+    <p class="descripcion">
+      Aproximación numérica de problemas de valor inicial \(y'(t) = f(t, y), y(t_0) = y_0\) mediante los métodos de un paso: Euler, Heun (Euler Mejorado) y Runge-Kutta 4 (RK4).
+    </p>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main class="contenedor-principal">
+    <div class="rejilla-calculadora">
+      <!-- PANEL DE CONTROL -->
+      <aside class="tarjeta">
+        <h2>Parámetros del PVI</h2>
+        <form id="form-edo" autocomplete="off">
+          <div class="campo">
+            <label for="edo-f">Ecuación diferencial y' = f(t, y):</label>
+            <input type="text" id="edo-f" value="y - t^2 + 1" placeholder="Ej: y - t^2 + 1 o -2*t*y">
+            <span class="pista">Variables: <strong>t</strong> (tiempo/independiente) e <strong>y</strong> (dependiente)</span>
+          </div>
+
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="edo-t0">Tiempo inicial t₀:</label>
+              <input type="number" id="edo-t0" step="any" value="0.0">
+            </div>
+            <div class="campo">
+              <label for="edo-y0">Condición inicial y₀:</label>
+              <input type="number" id="edo-y0" step="any" value="0.5">
+            </div>
+          </div>
+
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="edo-tf">Tiempo final t_f:</label>
+              <input type="number" id="edo-tf" step="any" value="0.4">
+            </div>
+            <div class="campo">
+              <label for="edo-h">Tamaño de paso h:</label>
+              <input type="number" id="edo-h" step="any" value="0.2">
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="edo-exacta">Solución analítica exacta y(t) [Opcional]:</label>
+            <input type="text" id="edo-exacta" value="(t + 1)^2 - 0.5*exp(t)" placeholder="Ej: (t + 1)^2 - 0.5*exp(t)">
+            <span class="pista">Permite comparar errores absolutos y porcentuales</span>
+          </div>
+
+          <div class="campo">
+            <label for="metodo-edo">Método numérico:</label>
+            <select id="metodo-edo">
+              <option value="comparar">Comparar todos (Euler, Heun, RK4)</option>
+              <option value="euler">Método de Euler O(h)</option>
+              <option value="heun">Método de Heun / Euler Mejorado O(h²)</option>
+              <option value="rk4">Runge-Kutta 4 (RK4) O(h⁴)</option>
+            </select>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn-primario">Resolver PVI</button>
+            <button type="button" id="btn-ejemplo-edo" class="btn-secundario">Ejemplo del PDF</button>
+          </div>
+        </form>
+      </aside>
+
+      <!-- RESULTADOS -->
+      <section class="tarjeta">
+        <h2>Resultados y Comparación</h2>
+        <div id="contenedor-alerta"></div>
+
+        <div id="resumen-resultado" style="display: none;">
+          <div class="alerta exito" id="caja-resumen-final"></div>
+
+          <h3>Gráfica de Trayectorias y(t)</h3>
+          <div id="grafica-edo" style="height: 330px; margin-bottom: 1.5rem;"></div>
+
+          <h3>Tabla de Pasos e Iteraciones</h3>
+          <div class="contenedor-tabla">
+            <table class="tabla-datos" id="tabla-edo">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div id="detalle-formulas-edo" style="margin-top: 1.5rem;"></div>
+        </div>
+
+        <div id="estado-inicial" class="alerta info">
+          Defina la ecuación diferencial, condiciones iniciales y presione <strong>Resolver PVI</strong>.
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie-pagina">
+    <p><strong>Universidad del Magdalena</strong> · Práctica Computacional 2</p>
+    <div class="integrantes-lista">
+      <span>Carlos Alfredo Ibañez Ortiz</span>
+      <span>Adriana Carolina Olivares Vásquez</span>
+      <span>Yineth Ávila Villalobos</span>
+    </div>
+  </footer>
+
+  <script src="js/evaluador.js"></script>
+  <script src="js/graficador.js"></script>
+  <script src="js/edo_pvi.js"></script>
+</body>
+</html>

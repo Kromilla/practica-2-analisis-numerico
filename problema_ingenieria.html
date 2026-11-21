@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Problema de Ingeniería · Armadura Pratt Beer · Análisis Numérico</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <style>
+    .seccion-comparativa {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      align-items: start;
+    }
+    @media (max-width: 950px) {
+      .seccion-comparativa {
+        grid-template-columns: 1fr;
+      }
+    }
+    .img-libro {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--borde);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+  </style>
+</head>
+<body>
+  <!-- BARRA DE NAVEGACIÓN -->
+  <nav class="barra-nav">
+    <div class="contenedor">
+      <a href="index.html" class="logo-uni">
+        🏛️ Unimagdalena · Análisis Numérico
+      </a>
+      <ul class="nav-enlaces">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="raices.html">1. Raíces</a></li>
+        <li><a href="interpolacion.html">2. Interpolación</a></li>
+        <li><a href="diferenciacion_integracion.html">3. Dif. e Integración</a></li>
+        <li><a href="edo_pvi.html">4. EDO para PVI</a></li>
+        <li><a href="problema_ingenieria.html" class="activo">5. Ing. Armadura</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ENCABEZADO -->
+  <header class="cabecera-pagina">
+    <p class="subtitulo-uni">Práctica Computacional 2 · Programa 5 (Problema de Ingeniería)</p>
+    <h1>Cálculo Estructural de Armadura Pratt (Beer & Johnston 6.53)</h1>
+    <p class="profesor">Docente: Marlon Andrés Hurtado Cantillo</p>
+    <p class="descripcion">
+      Modelado y solución numérica mediante el Método de Rigidez Matricial (sistema lineal de 21 ecuaciones de equilibrio) para determinar fuerzas axiales (tensión/compresión) y reacciones en apoyos.
+    </p>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main class="contenedor-principal">
+    <div class="rejilla-calculadora">
+      <!-- PANEL DE CONTROL -->
+      <aside class="tarjeta">
+        <h2>Parámetros de la Armadura</h2>
+        <form id="form-armadura" autocomplete="off">
+          <h3>1. Geometría (metros)</h3>
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="val-w">Ancho panel w (m):</label>
+              <input type="number" id="val-w" step="any" value="3.0">
+            </div>
+            <div class="campo">
+              <label for="val-h">Altura total h (m):</label>
+              <input type="number" id="val-h" step="any" value="6.75">
+            </div>
+          </div>
+
+          <h3>2. Cargas Verticales en Nodos (kN)</h3>
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="p-A">P_A:</label>
+              <input type="number" id="p-A" step="any" value="1.5">
+            </div>
+            <div class="campo">
+              <label for="p-B">P_B:</label>
+              <input type="number" id="p-B" step="any" value="3.0">
+            </div>
+            <div class="campo">
+              <label for="p-D">P_D:</label>
+              <input type="number" id="p-D" step="any" value="3.0">
+            </div>
+          </div>
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="p-F">P_F (Cúspide):</label>
+              <input type="number" id="p-F" step="any" value="3.0">
+            </div>
+            <div class="campo">
+              <label for="p-H">P_H:</label>
+              <input type="number" id="p-H" step="any" value="3.0">
+            </div>
+            <div class="campo">
+              <label for="p-J">P_J:</label>
+              <input type="number" id="p-J" step="any" value="3.0">
+            </div>
+            <div class="campo">
+              <label for="p-L">P_L:</label>
+              <input type="number" id="p-L" step="any" value="1.5">
+            </div>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn-primario">Calcular Armadura</button>
+            <button type="button" id="btn-reset-beer" class="btn-secundario">Restablecer Beer 6.53</button>
+          </div>
+        </form>
+
+        <div style="margin-top: 1.5rem;">
+          <h3>Problema 6.53 del Libro Guía</h3>
+          <img src="img/problema_beer.png" alt="Problema 6.53 Beer & Johnston" class="img-libro">
+        </div>
+      </aside>
+
+      <!-- RESULTADOS -->
+      <section class="tarjeta">
+        <h2>Resultados Estructurales</h2>
+        <div id="contenedor-alerta"></div>
+
+        <div id="resumen-resultado">
+          <div class="alerta exito" id="caja-reacciones"></div>
+
+          <h3>Esquema Gráfico Interactivo de la Armadura</h3>
+          <div id="canvas-armadura" style="height: 340px; margin-bottom: 1.2rem;"></div>
+
+          <div class="alerta info" style="margin-bottom: 1rem;">
+            <strong>Convención:</strong> Barras en <span style="color:#2980b9; font-weight:bold;">[T] Tensión</span> | Barras en <span style="color:#c0392b; font-weight:bold;">[C] Compresión</span> | Barras con <span style="font-weight:bold;">*</span> corresponden a los miembros solicitados en el ejercicio 6.53 (CD, DE, DF).
+          </div>
+
+          <h3>Fuerzas Internas en los 21 Elementos</h3>
+          <div class="contenedor-tabla">
+            <table class="tabla-datos" id="tabla-fuerzas">
+              <thead>
+                <tr>
+                  <th>Elemento</th>
+                  <th>Longitud L (m)</th>
+                  <th>Fuerza Axial (kN)</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie-pagina">
+    <p><strong>Universidad del Magdalena</strong> · Práctica Computacional 2</p>
+    <div class="integrantes-lista">
+      <span>Carlos Alfredo Ibañez Ortiz</span>
+      <span>Adriana Carolina Olivares Vásquez</span>
+      <span>Yineth Ávila Villalobos</span>
+    </div>
+  </footer>
+
+  <script src="js/evaluador.js"></script>
+  <script src="js/problema_ingenieria.js"></script>
+</body>
+</html>

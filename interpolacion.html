@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Interpolación Polinomial · Análisis Numérico</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <!-- BARRA DE NAVEGACIÓN -->
+  <nav class="barra-nav">
+    <div class="contenedor">
+      <a href="index.html" class="logo-uni">
+        🏛️ Unimagdalena · Análisis Numérico
+      </a>
+      <ul class="nav-enlaces">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="raices.html">1. Raíces</a></li>
+        <li><a href="interpolacion.html" class="activo">2. Interpolación</a></li>
+        <li><a href="diferenciacion_integracion.html">3. Dif. e Integración</a></li>
+        <li><a href="edo_pvi.html">4. EDO para PVI</a></li>
+        <li><a href="problema_ingenieria.html">5. Ing. Armadura</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ENCABEZADO -->
+  <header class="cabecera-pagina">
+    <p class="subtitulo-uni">Práctica Computacional 2 · Programa 2</p>
+    <h1>Calculadora de Interpolación Polinomial</h1>
+    <p class="profesor">Docente: Marlon Andrés Hurtado Cantillo</p>
+    <p class="descripcion">
+      Construcción de polinomios interpolantes mediante Polinomio de Taylor, Polinomio de Lagrange y Diferencias Divididas de Newton.
+    </p>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main class="contenedor-principal">
+    <div class="rejilla-calculadora">
+      <!-- PANEL DE CONTROL -->
+      <aside class="tarjeta">
+        <h2>Parámetros de Interpolación</h2>
+        <form id="form-interpolacion" autocomplete="off">
+          <div class="campo">
+            <label for="metodo-interp">Método de interpolación:</label>
+            <select id="metodo-interp">
+              <option value="lagrange">Polinomio de Lagrange</option>
+              <option value="newton">Diferencias Divididas de Newton</option>
+              <option value="taylor">Polinomio de Taylor (en torno a x₀)</option>
+            </select>
+          </div>
+
+          <!-- Campos para Lagrange y Newton (Puntos discretos) -->
+          <div id="seccion-puntos">
+            <div class="campo">
+              <label for="puntos-entrada">Puntos (x, y):</label>
+              <textarea id="puntos-entrada" rows="5" placeholder="Un punto por fila: x, y&#10;Ejemplo:&#10;1, 1.0&#10;2, 0.5&#10;4, 0.25&#10;5, 0.2">1, 1.0
+2, 0.5
+4, 0.25
+5, 0.2</textarea>
+              <span class="pista">Formato: x, y por cada línea</span>
+            </div>
+          </div>
+
+          <!-- Campos para Taylor -->
+          <div id="seccion-taylor" style="display: none;">
+            <div class="campo">
+              <label for="fx-taylor">Función f(x):</label>
+              <input type="text" id="fx-taylor" value="exp(x)" placeholder="Ej: exp(x), ln(x), cos(x)">
+            </div>
+            <div class="fila-campos">
+              <div class="campo">
+                <label for="x0-taylor">Centro x₀:</label>
+                <input type="number" id="x0-taylor" step="any" value="0">
+              </div>
+              <div class="campo">
+                <label for="grado-taylor">Grado n:</label>
+                <input type="number" id="grado-taylor" value="4" min="1" max="8">
+              </div>
+            </div>
+          </div>
+
+          <!-- Punto a evaluar -->
+          <div class="campo">
+            <label for="punto-eval">Punto a estimar x*:</label>
+            <input type="number" id="punto-eval" step="any" value="3.0">
+            <span class="pista">Valor donde se evaluará P(x*)</span>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn-primario">Calcular Polinomio</button>
+            <button type="button" id="btn-ejemplo-interp" class="btn-secundario">Cargar Ejemplo</button>
+          </div>
+        </form>
+      </aside>
+
+      <!-- RESULTADOS -->
+      <section class="tarjeta">
+        <h2>Polinomio y Resultados</h2>
+        <div id="contenedor-alerta"></div>
+
+        <div id="resumen-resultado" style="display: none;">
+          <div class="alerta exito" id="caja-evaluacion"></div>
+
+          <h3>Polinomio Interpolante P(x)</h3>
+          <div class="caja-formula" id="formula-polinomio"></div>
+
+          <div id="detalle-metodo">
+            <!-- Tabla de diferencias divididas o coeficientes de Lagrange -->
+          </div>
+
+          <h3>Gráfica del Polinomio y Nodos</h3>
+          <div id="grafica-interp" style="height: 330px; margin-bottom: 1.5rem;"></div>
+        </div>
+
+        <div id="estado-inicial" class="alerta info">
+          Ingrese los puntos o la función y presione <strong>Calcular Polinomio</strong>.
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie-pagina">
+    <p><strong>Universidad del Magdalena</strong> · Práctica Computacional 2</p>
+    <div class="integrantes-lista">
+      <span>Carlos Alfredo Ibañez Ortiz</span>
+      <span>Adriana Carolina Olivares Vásquez</span>
+      <span>Yineth Ávila Villalobos</span>
+    </div>
+  </footer>
+
+  <script src="js/evaluador.js"></script>
+  <script src="js/graficador.js"></script>
+  <script src="js/interpolacion.js"></script>
+</body>
+</html>

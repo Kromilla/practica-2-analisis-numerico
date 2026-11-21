@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Diferenciación e Integración · Análisis Numérico</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <!-- BARRA DE NAVEGACIÓN -->
+  <nav class="barra-nav">
+    <div class="contenedor">
+      <a href="index.html" class="logo-uni">
+        🏛️ Unimagdalena · Análisis Numérico
+      </a>
+      <ul class="nav-enlaces">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="raices.html">1. Raíces</a></li>
+        <li><a href="interpolacion.html">2. Interpolación</a></li>
+        <li><a href="diferenciacion_integracion.html" class="activo">3. Dif. e Integración</a></li>
+        <li><a href="edo_pvi.html">4. EDO para PVI</a></li>
+        <li><a href="problema_ingenieria.html">5. Ing. Armadura</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ENCABEZADO -->
+  <header class="cabecera-pagina">
+    <p class="subtitulo-uni">Práctica Computacional 2 · Programa 3 (Unidad 3)</p>
+    <h1>Calculadora de Diferenciación e Integración Numérica</h1>
+    <p class="profesor">Docente: Marlon Andrés Hurtado Cantillo</p>
+    <p class="descripcion">
+      Fórmulas de diferencias finitas hacia adelante, atrás y centradas de orden O(h²) y O(h⁴). Reglas de Newton-Cotes simples y compuestas (Trapecio, Simpson 1/3, Simpson 3/8 y Boole).
+    </p>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main class="contenedor-principal">
+    <div class="rejilla-calculadora">
+      <!-- PANEL DE CONTROL -->
+      <aside class="tarjeta">
+        <h2>Operación Numérica</h2>
+        <form id="form-dif-int" autocomplete="off">
+          <div class="campo">
+            <label for="tipo-operacion">Tipo de cálculo:</label>
+            <select id="tipo-operacion">
+              <option value="diferenciacion">Diferenciación Numérica (Derivadas)</option>
+              <option value="integracion">Integración Numérica (Newton-Cotes)</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="origen-datos">Entrada de datos:</label>
+            <select id="origen-datos">
+              <option value="funcion">Función analítica f(x)</option>
+              <option value="tabla">Tabla de datos discretos (x, y)</option>
+            </select>
+          </div>
+
+          <!-- Campos para Función -->
+          <div id="seccion-funcion">
+            <div class="campo">
+              <label for="fx-dif">Función f(x):</label>
+              <input type="text" id="fx-dif" value="x^2 + 1/x" placeholder="Ej: x^2 + 1/x o exp(x)*cos(x)">
+            </div>
+          </div>
+
+          <!-- Campos para Tabla Discreta -->
+          <div id="seccion-tabla" style="display: none;">
+            <div class="campo">
+              <label for="tabla-entrada">Nodos (x, y):</label>
+              <textarea id="tabla-entrada" rows="6" placeholder="x, y por cada línea&#10;0, 5&#10;1, 4&#10;2, 6&#10;3, -2&#10;4, 5&#10;5, 7&#10;6, 3">0, 5
+1, 4
+2, 6
+3, -2
+4, 5
+5, 7
+6, 3</textarea>
+              <span class="pista">Espaciamiento uniforme h = x_{i+1} - x_i</span>
+            </div>
+          </div>
+
+          <!-- PARÁMETROS DIFERENCIACIÓN -->
+          <div id="params-diferenciacion">
+            <div class="fila-campos">
+              <div class="campo">
+                <label for="x0-dif">Punto x₀:</label>
+                <input type="number" id="x0-dif" step="any" value="4.0">
+              </div>
+              <div class="campo">
+                <label for="h-dif">Paso h:</label>
+                <input type="number" id="h-dif" step="any" value="0.1">
+              </div>
+            </div>
+            <div class="campo">
+              <label for="metodo-dif">Fórmula de derivación:</label>
+              <select id="metodo-dif">
+                <option value="todas">Comparar todas las fórmulas</option>
+                <option value="adelante">Adelante O(h)</option>
+                <option value="atras">Atrás O(h)</option>
+                <option value="centrada_h2">Centrada O(h²) [3 puntos]</option>
+                <option value="centrada_h4">Centrada O(h⁴) [5 puntos]</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- PARÁMETROS INTEGRACIÓN -->
+          <div id="params-integracion" style="display: none;">
+            <div class="fila-campos" id="campos-limites">
+              <div class="campo">
+                <label for="lim-a">Límite a:</label>
+                <input type="number" id="lim-a" step="any" value="0.0">
+              </div>
+              <div class="campo">
+                <label for="lim-b">Límite b:</label>
+                <input type="number" id="lim-b" step="any" value="6.0">
+              </div>
+            </div>
+            <div class="campo" id="campo-subintervalos">
+              <label for="num-subintervalos">Subintervalos n:</label>
+              <input type="number" id="num-subintervalos" value="6" min="1" max="60">
+              <span class="pista">n=1: Trapecio | n=2: Simpson 1/3 | n=3: Simpson 3/8 | n=4: Boole</span>
+            </div>
+            <div class="campo">
+              <label for="metodo-int">Regla de integración:</label>
+              <select id="metodo-int">
+                <option value="todas">Comparar todas las reglas aplicables</option>
+                <option value="trapecio">Regla del Trapecio</option>
+                <option value="simpson13">Regla 1/3 de Simpson (n par)</option>
+                <option value="simpson38">Regla 3/8 de Simpson (n mult. de 3)</option>
+                <option value="boole">Regla de Boole (n = 4)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn-primario">Calcular</button>
+            <button type="button" id="btn-ejemplo-difint" class="btn-secundario">Ejemplo del PDF</button>
+          </div>
+        </form>
+      </aside>
+
+      <!-- RESULTADOS -->
+      <section class="tarjeta">
+        <h2>Resultados y Procedimiento Paso a Paso</h2>
+        <div id="contenedor-alerta"></div>
+
+        <div id="resumen-resultado" style="display: none;">
+          <div id="bloque-pasos"></div>
+        </div>
+
+        <div id="estado-inicial" class="alerta info">
+          Configure los parámetros y presione <strong>Calcular</strong>.
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie-pagina">
+    <p><strong>Universidad del Magdalena</strong> · Práctica Computacional 2</p>
+    <div class="integrantes-lista">
+      <span>Carlos Alfredo Ibañez Ortiz</span>
+      <span>Adriana Carolina Olivares Vásquez</span>
+      <span>Yineth Ávila Villalobos</span>
+    </div>
+  </footer>
+
+  <script src="js/evaluador.js"></script>
+  <script src="js/graficador.js"></script>
+  <script src="js/diferenciacion_integracion.js"></script>
+</body>
+</html>

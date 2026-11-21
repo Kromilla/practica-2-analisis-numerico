@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Práctica Computacional 2 · Análisis Numérico · Unimagdalena</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <!-- BARRA DE NAVEGACIÓN -->
+  <nav class="barra-nav">
+    <div class="contenedor">
+      <a href="index.html" class="logo-uni">
+        🏛️ Unimagdalena · Análisis Numérico
+      </a>
+      <ul class="nav-enlaces">
+        <li><a href="index.html" class="activo">Inicio</a></li>
+        <li><a href="raices.html">1. Raíces</a></li>
+        <li><a href="interpolacion.html">2. Interpolación</a></li>
+        <li><a href="diferenciacion_integracion.html">3. Dif. e Integración</a></li>
+        <li><a href="edo_pvi.html">4. EDO para PVI</a></li>
+        <li><a href="problema_ingenieria.html">5. Ing. Armadura</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ENCABEZADO Y PRESENTACIÓN -->
+  <header class="cabecera-pagina">
+    <p class="subtitulo-uni">Universidad del Magdalena · Facultad de Ingeniería</p>
+    <h1>Práctica Computacional 2: Métodos Numéricos</h1>
+    <p class="profesor">Docente: Marlon Andrés Hurtado Cantillo</p>
+    
+    <div style="max-width: 650px; margin: 1.2rem auto; padding: 1rem; background: var(--superficie); border-radius: 8px; border: 1px solid var(--borde); box-shadow: var(--sombra);">
+      <h3 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primario); margin-bottom: 0.5rem;">Integrantes del Grupo de Trabajo:</h3>
+      <div class="integrantes-lista" style="font-size: 1rem; color: var(--texto);">
+        <span>Carlos Alfredo Ibañez Ortiz</span>
+        <span>Adriana Carolina Olivares Vásquez</span>
+        <span>Yineth Ávila Villalobos</span>
+      </div>
+    </div>
+
+    <p class="descripcion">
+      Suite interactiva de 5 programas y calculadoras numéricas desarrolladas conforme a las notaciones, fórmulas y lineamientos de las Unidades 2 y 3 del curso de Análisis Numérico.
+    </p>
+  </header>
+
+  <!-- LISTA DE LOS 5 PROGRAMAS -->
+  <main class="contenedor-principal">
+    <div class="rejilla-presentacion">
+      <!-- PROGRAMA 1 -->
+      <article class="tarjeta-programa">
+        <div>
+          <span class="numero">Programa 1</span>
+          <h3>Calculadora de Raíces</h3>
+          <p>Aproximación de raíces de ecuaciones no lineales con comprobación gráfica y criterio de tolerancia de parada.</p>
+          <ul>
+            <li>Método de Bisección (Teorema de Bolzano)</li>
+            <li>Método de Falsa Posición (Regula Falsi)</li>
+            <li>Método de la Secante (Dos aproximaciones)</li>
+            <li>Método de Newton-Raphson</li>
+            <li>Método del Punto Fijo [x = g(x)]</li>
+          </ul>
+        </div>
+        <a href="raices.html" style="text-decoration: none;">
+          <button type="button" class="btn-primario" style="width: 100%;">Abrir Calculadora 1 →</button>
+        </a>
+      </article>
+
+      <!-- PROGRAMA 2 -->
+      <article class="tarjeta-programa">
+        <div>
+          <span class="numero">Programa 2</span>
+          <h3>Interpolación Polinomial</h3>
+          <p>Construcción de polinomios interpolantes exactos a partir de conjuntos de nodos discretos o funciones analíticas.</p>
+          <ul>
+            <li>Polinomio de Taylor de orden n</li>
+            <li>Polinomio de Lagrange con base L_i(x)</li>
+            <li>Diferencias Divididas de Newton</li>
+            <li>Tabla triangular de diferencias</li>
+            <li>Gráfica interactiva de la curva interpolante</li>
+          </ul>
+        </div>
+        <a href="interpolacion.html" style="text-decoration: none;">
+          <button type="button" class="btn-primario" style="width: 100%;">Abrir Calculadora 2 →</button>
+        </a>
+      </article>
+
+      <!-- PROGRAMA 3 -->
+      <article class="tarjeta-programa">
+        <div>
+          <span class="numero">Programa 3</span>
+          <h3>Diferenciación e Integración</h3>
+          <p>Fórmulas de derivación numérica e integración por Reglas de Newton-Cotes con fórmulas expandidas paso a paso (Unidad 3).</p>
+          <ul>
+            <li>Diferencias finitas: Adelante, Atrás, Centradas O(h²) y O(h⁴)</li>
+            <li>Reglas del Trapecio (Simple y Compuesta)</li>
+            <li>Reglas de 1/3 de Simpson (Simple y Compuesta)</li>
+            <li>Reglas de 3/8 de Simpson (Simple y Compuesta)</li>
+            <li>Regla de Boole (n = 4)</li>
+          </ul>
+        </div>
+        <a href="diferenciacion_integracion.html" style="text-decoration: none;">
+          <button type="button" class="btn-primario" style="width: 100%;">Abrir Calculadora 3 →</button>
+        </a>
+      </article>
+
+      <!-- PROGRAMA 4 -->
+      <article class="tarjeta-programa">
+        <div>
+          <span class="numero">Programa 4</span>
+          <h3>Solución Numérica de EDO</h3>
+          <p>Resolución de problemas de valor inicial (PVI) de primer orden y comparación de precisión contra solución analítica.</p>
+          <ul>
+            <li>Método de Euler O(h)</li>
+            <li>Método de Heun / Euler Mejorado O(h²)</li>
+            <li>Runge-Kutta de 4to Orden (RK4) O(h⁴)</li>
+            <li>Tabla comparativa de error relativo %</li>
+            <li>Gráfica de trayectorias y(t) superpuestas</li>
+          </ul>
+        </div>
+        <a href="edo_pvi.html" style="text-decoration: none;">
+          <button type="button" class="btn-primario" style="width: 100%;">Abrir Calculadora 4 →</button>
+        </a>
+      </article>
+
+      <!-- PROGRAMA 5 -->
+      <article class="tarjeta-programa">
+        <div>
+          <span class="numero">Programa 5</span>
+          <h3>Problema de Ingeniería</h3>
+          <p>Modelado estructural paramétrico de la armadura Pratt (Ejercicio 6.53 de Beer & Johnston) con método de rigidez matricial.</p>
+          <ul>
+            <li>Sistema lineal de 21 ecuaciones de equilibrio</li>
+            <li>Cálculo de fuerzas axiales (Tensión / Compresión)</li>
+            <li>Reacciones de apoyo en nodos A y L</li>
+            <li>Resaltado de barras CD, DE y DF</li>
+            <li>Visualización gráfica SVG interactiva</li>
+          </ul>
+        </div>
+        <a href="problema_ingenieria.html" style="text-decoration: none;">
+          <button type="button" class="btn-primario" style="width: 100%;">Abrir Calculadora 5 →</button>
+        </a>
+      </article>
+    </div>
+  </main>
+
+  <footer class="pie-pagina">
+    <p><strong>Universidad del Magdalena</strong> · Facultad de Ingeniería · Análisis Numérico</p>
+    <div class="integrantes-lista">
+      <span>Carlos Alfredo Ibañez Ortiz</span>
+      <span>Adriana Carolina Olivares Vásquez</span>
+      <span>Yineth Ávila Villalobos</span>
+    </div>
+  </footer>
+</body>
+</html>
